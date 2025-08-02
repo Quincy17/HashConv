@@ -1,7 +1,7 @@
 import { Head, Link } from "@inertiajs/react"
 import { useEffect, useRef, useState } from "react"
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Welcome({ auth}) {
   const [isVisible, setIsVisible] = useState({
     hero: false,
     features: false,
