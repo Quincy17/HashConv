@@ -8,6 +8,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return inertia('Dashboard');
+        $messages = app(ChatController::class)->fetchMessages();
+
+        return inertia('Dashboard', [
+            'messages' => $messages
+        ]);
     }
 }
