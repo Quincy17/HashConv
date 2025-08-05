@@ -44,7 +44,7 @@ export default function DetailChat({ detailMessage = [], selectedUserId, userId 
     return (
         <div
             ref={chatContainerRef}
-            className="p-6 text-gray-900 dark:text-gray-100 space-y-3 h-[1000px] overflow-y-auto scrollbar-hide"
+            className="chat-bubble p-6 text-gray-900 dark:text-gray-100 space-y-3 h-[1000px] overflow-y-auto scrollbar-hide"
         >
             {messages.length > 0 ? (
                 messages.map((msg) => (
@@ -57,7 +57,7 @@ export default function DetailChat({ detailMessage = [], selectedUserId, userId 
                         }`}
                     >
                         <div
-                            className={`px-4 py-2 rounded-lg max-w-xs ${
+                            className={`px-4 py-2 rounded-lg max-w-xl ${
                                 msg.sender_id === selectedUserId
                                     ? "bg-gray-300 text-black"
                                     : "bg-blue-500 text-white"

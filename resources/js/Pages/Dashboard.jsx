@@ -103,7 +103,7 @@ export default function Dashboard({ messages: initialMessages = [] }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 mt-5">
                         <DetailChat 
                             detailMessage={detailMessage} 
                             selectedUserId={selectedUserId} 
