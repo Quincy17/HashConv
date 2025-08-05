@@ -1,13 +1,61 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import Chat from '@/Pages/Chat/ChatSidebar';
+import DetailChat from '@/Pages/Chat/DetailChat';
+import { useState } from 'react';
+import { Head, usePage } from '@inertiajs/react';
+import axios from 'axios';
 
-export default function Dashboard() {
+export default function Dashboard({ messages = [] }) {
+    const { auth } = usePage().props; //Ngambil data user yg login
+    const [message, setMessage] = useState('');
+    const [detailMessage, setDetailMessage] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+
+    const fetchDetailMessage = async (senderId) => {
+        try {
+            const response = await axios.get(`/detail-message/${senderId}`);
+            setDetailMessage(response.data);
+            setSelectedUserId(senderId);
+        } catch (error) {
+            console.error("Failed to load detail messages:", error);
+        }
+    };
+
+    const handleSend = async () => {
+        if (!message.trim() || !selectedUserId) return;
+        try {
+            await axios.post("/send-message", {
+                message,
+                receiver_id: selectedUserId
+            });
+            setMessage('');
+        } catch (error) {
+            console.error("Failed to send message:", error);
+        }
+    };
+
     return (
         <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Dashboard
-                </h2>
+            sidebar={<Chat messages={messages} onSelectDetailMessage={fetchDetailMessage} />}
+            chatHolder={
+                <div className="flex items-center gap-2">
+                    <input
+                        type="text"
+                        placeholder="Tulis pesan..."
+                        className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:text-gray-100"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                        disabled={!selectedUserId}
+                    />
+                    <button
+                        onClick={handleSend}
+                        className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+                        disabled={!selectedUserId}
+                    >
+                        Kirim
+                    </button>
+                </div>
             }
         >
             <Head title="Dashboard" />
@@ -15,9 +63,11 @@ export default function Dashboard() {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">
-                            You're logged in!
-                        </div>
+                        <DetailChat 
+                            detailMessage={detailMessage} 
+                            selectedUserId={selectedUserId} 
+                            userId={auth.user.user_id}
+                        />
                     </div>
                 </div>
             </div>
