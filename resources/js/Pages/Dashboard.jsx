@@ -52,19 +52,18 @@ export default function Dashboard({ messages: initialMessages = [] }) {
     
         const channel = Echo.private(`chat.${auth.user.user_id}`)
             .listen("MessageSent", (event) => {
-                // Jika pesan untuk user login
                 if (event.message.receiver_id === auth.user.user_id) {
                     if (selectedUserId === event.message.sender_id) {
-                        // ✅ User sedang buka chat → langsung tandai read
+                        // langsung read = true pas sender receiver chatting di waktu yang sama
                         axios.post('/mark-as-read', {
                             sender_id: event.message.sender_id
                         }).then(() => {
                             setDetailMessage(prev => [...prev, event.message]);
-                            // Update sidebar agar count = 0
+                            // Update sidebar biar count = 0
                             fetchSidebarMessage();
                         });
                     } else {
-                        // ✅ Pesan dari user lain → update sidebar count
+                        // chat dari user lain
                         fetchSidebarMessage();
                     }
                 }
