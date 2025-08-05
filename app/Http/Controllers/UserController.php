@@ -14,7 +14,7 @@ class UserController extends Controller
         $users = \App\Models\User::whereRaw('LOWER(name) LIKE ?', ["%{$query}%"])
             ->where('user_id', '!=', Auth::user()->user_id) // tampilkan user selain yang login
             ->select('user_id', 'name', 'avatar')
-            ->limit(10)
+            ->limit(5)
             ->get();
 
         return response()->json($users);

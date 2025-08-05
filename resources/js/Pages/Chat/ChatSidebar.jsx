@@ -56,9 +56,9 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                         <div
                             key={user.user_id}
                             onClick={() => handleSelectUser(user.user_id)}
-                            className={`flex items-center gap-3 px-4 py-3 cursor-pointer border-b border-gray-300 dark:border-gray-700 
+                            className={`flex items-center gap-3 px-4 py-3 cursor-pointer  
                                 hover:bg-gray-200 dark:hover:bg-gray-700 
-                                ${selectedUserId === user.user_id ? "bg-blue-200 dark:bg-gray-700" : ""}`}
+                                ${selectedUserId === user.user_id ? "bg-blue-200 dark:bg-gray-700 rounded" : ""}`}
                         >
                             <img
                                 src={user.avatar ?? `https://i.pravatar.cc/40?u=${user.user_id}`}
@@ -75,9 +75,9 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                         <div
                             key={chat.id}
                             onClick={() => handleSelectUser(chat.id)}
-                            className={`flex justify-between items-center px-4 py-3 cursor-pointer border-b border-gray-300 dark:border-gray-700
-                                hover:bg-gray-200 dark:hover:bg-gray-700
-                                ${selectedUserId === chat.id ? "bg-blue-200 dark:bg-gray-700  dark:border-gray-300" : ""}`}
+                            className={`flex justify-between items-center px-4 py-3 cursor-pointer mt-1
+                                hover:bg-gray-200 dark:hover:bg-gray-700 hover: rounded
+                                ${selectedUserId === chat.id ? "bg-blue-200 dark:bg-gray-700  dark:border-gray-300 rounded border-b" : ""}`}
                         >
                             <div className="flex items-center gap-3">
                                 <img
