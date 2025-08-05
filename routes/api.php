@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\ChatController;
 use App\Models\User;
 
 Route::post('/register-api', function (Request $request) {
@@ -52,6 +52,7 @@ Route::post('/login-api', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/messages', [ChatController::class, 'getAllMessages']);
     Route::get('/messages/{message_id}', [ChatController::class, 'getMessages']);
     Route::post('/messages', [ChatController::class, 'sendMessage']);
 });
