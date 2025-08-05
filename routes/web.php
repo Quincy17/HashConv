@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/messages', [ChatController::class, 'getAllMessages']);
     Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send.message');
     Route::get('/detail-message/{sender_id}', [ChatController::class, 'detailMessage'])->name('chat.detailMessage');
+    Route::post('/mark-as-read', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
 
     Route::get('/search-user', [UserController::class, 'searchUser'])->name('user.search');
 });

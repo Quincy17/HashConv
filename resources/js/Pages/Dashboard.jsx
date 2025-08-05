@@ -49,16 +49,32 @@ export default function Dashboard({ messages: initialMessages = [] }) {
 
     useEffect(() => {
         if (!auth.user.user_id) return;
-
+    
         const channel = Echo.private(`chat.${auth.user.user_id}`)
-            .listen("MessageSent", () => {
-                fetchSidebarMessage();
+            .listen("MessageSent", (event) => {
+                // Jika pesan untuk user login
+                if (event.message.receiver_id === auth.user.user_id) {
+                    if (selectedUserId === event.message.sender_id) {
+                        // ✅ User sedang buka chat → langsung tandai read
+                        axios.post('/mark-as-read', {
+                            sender_id: event.message.sender_id
+                        }).then(() => {
+                            setDetailMessage(prev => [...prev, event.message]);
+                            // Update sidebar agar count = 0
+                            fetchSidebarMessage();
+                        });
+                    } else {
+                        // ✅ Pesan dari user lain → update sidebar count
+                        fetchSidebarMessage();
+                    }
+                }
             });
-
+    
         return () => {
             channel.stopListening("MessageSent");
         };
-    }, [auth.user.user_id]);
+    }, [auth.user.user_id, selectedUserId]);
+    
 
     return (
         <AuthenticatedLayout
