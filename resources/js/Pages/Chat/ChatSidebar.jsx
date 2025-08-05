@@ -5,6 +5,7 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(null); // ✅ Tambah state
 
     const handleSearch = async (e) => {
         const value = e.target.value;
@@ -26,6 +27,7 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
 
     const handleSelectUser = (userId) => {
         onSelectDetailMessage(userId);
+        setSelectedUserId(userId); // ✅ Simpan user yang dipilih
         setSearchQuery("");
         setIsSearching(false);
     };
@@ -54,7 +56,9 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                         <div
                             key={user.user_id}
                             onClick={() => handleSelectUser(user.user_id)}
-                            className="flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-300 dark:border-gray-700"
+                            className={`flex items-center gap-3 px-4 py-3 cursor-pointer border-b border-gray-300 dark:border-gray-700 
+                                hover:bg-gray-200 dark:hover:bg-gray-700 
+                                ${selectedUserId === user.user_id ? "bg-blue-200 dark:bg-gray-700" : ""}`}
                         >
                             <img
                                 src={user.avatar ?? `https://i.pravatar.cc/40?u=${user.user_id}`}
@@ -70,8 +74,10 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                     messages.map((chat) => (
                         <div
                             key={chat.id}
-                            onClick={() => onSelectDetailMessage(chat.id)}
-                            className="flex justify-between items-center px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-300 dark:border-gray-700"
+                            onClick={() => handleSelectUser(chat.id)}
+                            className={`flex justify-between items-center px-4 py-3 cursor-pointer border-b border-gray-300 dark:border-gray-700
+                                hover:bg-gray-200 dark:hover:bg-gray-700
+                                ${selectedUserId === chat.id ? "bg-blue-200 dark:bg-gray-700  dark:border-gray-300" : ""}`}
                         >
                             <div className="flex items-center gap-3">
                                 <img

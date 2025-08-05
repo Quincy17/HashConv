@@ -71,7 +71,7 @@ export default function DetailChat({ detailMessage = [], selectedUserId, userId 
                     </div>
                 ))
             ) : (
-                <p className="text-gray-500">Pilih chat di sidebar untuk melihat pesan.</p>
+                <p className="text-gray-500">Pilih chat di sidebar atau cari user untuk mengirim pesan.</p>
             )}
         </div>
     );
