@@ -5,7 +5,7 @@ export default function DetailChat({ detailMessage = [], selectedUserId, userId 
     const [messages, setMessages] = useState(detailMessage);
     const chatContainerRef = useRef(null);
 
-    // Update state saat props detailMessage berubah (misal setelah fetch)
+    // Update state pas props detailMessage berubah (misal habis fetch)
     useEffect(() => {
         setMessages(detailMessage);
     }, [detailMessage]);
@@ -34,7 +34,7 @@ export default function DetailChat({ detailMessage = [], selectedUserId, userId 
         };
     }, [userId, selectedUserId]);
 
-    // Auto-scroll ke bawah setiap kali pesan bertambah
+    // Auto-scroll ke bawah pas buka detail chat
     useEffect(() => {
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;

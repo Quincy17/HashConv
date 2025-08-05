@@ -1,15 +1,26 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Chat from '@/Pages/Chat/ChatSidebar';
 import DetailChat from '@/Pages/Chat/DetailChat';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import axios from 'axios';
+import Echo from '../echo';
 
-export default function Dashboard({ messages = [] }) {
-    const { auth } = usePage().props; //Ngambil data user yg login
+export default function Dashboard({ messages: initialMessages = [] }) {
+    const { auth } = usePage().props; // Ambil data user yang login
+    const [messages, setMessages] = useState(initialMessages);
     const [message, setMessage] = useState('');
     const [detailMessage, setDetailMessage] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
+
+    const fetchSidebarMessage = async () => {
+        try {
+            const response = await axios.get('/messages');
+            setMessages(response.data);
+        } catch (error) {
+            console.error("Failed to fetch messages:", error);
+        }
+    };
 
     const fetchDetailMessage = async (senderId) => {
         try {
@@ -29,10 +40,40 @@ export default function Dashboard({ messages = [] }) {
                 receiver_id: selectedUserId
             });
             setMessage('');
+
+            fetchSidebarMessage(); // Refresh sidebar biar real-time
         } catch (error) {
             console.error("Failed to send message:", error);
         }
     };
+
+    useEffect(() => {
+        if (!auth.user.user_id) return;
+    
+        const channel = Echo.private(`chat.${auth.user.user_id}`)
+            .listen("MessageSent", (event) => {
+                if (event.message.receiver_id === auth.user.user_id) {
+                    if (selectedUserId === event.message.sender_id) {
+                        // langsung read = true pas sender receiver chatting di waktu yang sama
+                        axios.post('/mark-as-read', {
+                            sender_id: event.message.sender_id
+                        }).then(() => {
+                            setDetailMessage(prev => [...prev, event.message]);
+                            // Update sidebar biar count = 0
+                            fetchSidebarMessage();
+                        });
+                    } else {
+                        // chat dari user lain
+                        fetchSidebarMessage();
+                    }
+                }
+            });
+    
+        return () => {
+            channel.stopListening("MessageSent");
+        };
+    }, [auth.user.user_id, selectedUserId]);
+    
 
     return (
         <AuthenticatedLayout

@@ -24,5 +24,6 @@ class MessageSent implements ShouldBroadcastNow
     {
         Log::info("sip kekirim", $this->message->toArray()); //Debugging
         return new PrivateChannel('chat.' . $this->message->receiver_id);
+        return new PrivateChannel('chat.' . $this->message->sender_id);
     }
 }

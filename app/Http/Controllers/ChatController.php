@@ -102,4 +102,24 @@ class ChatController extends Controller
 
         return response()->json($messages);
     }
+
+    //biar kalo receiver sedang diskusi langsung dengan sender, bubble count nggak nambah
+    public function markAsRead(Request $request)
+    {
+        $request->validate([
+            'sender_id' => 'required|integer|exists:users,user_id',
+        ]);
+
+        $userId = Auth::user()->user_id;
+
+        MessageModel::where('sender_id', $request->sender_id)
+            ->where('receiver_id', $userId)
+            ->where('is_read', false)
+            ->update([
+                'is_read' => true,
+                'read_at' => now(),
+            ]);
+
+        return response()->json(['status' => 'success']);
+    }
 }
