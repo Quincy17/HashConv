@@ -178,7 +178,7 @@ export default function AuthenticatedLayout({ header, sidebar, children, chatHol
 
                 <div className="flex flex-1">
                     {sidebar && (
-                        <aside className="w-1/5 h-auto overflow-y-auto bg-gray-100 dark:bg-gray-800">
+                        <aside className="w-1/5 h-auto overflow-y-auto bg-gray-100 dark:bg-gray-800 pt-12">
                             <div className="px-4 py-6">
                                 {sidebar}
                             </div>

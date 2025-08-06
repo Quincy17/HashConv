@@ -40,7 +40,7 @@ export default function Welcome({ auth}) {
 
   return (
     <>
-      <Head title="HashConv"/>
+      <Head title="Home"/>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100">
         {/* Navigation */}
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-purple-100 z-50">

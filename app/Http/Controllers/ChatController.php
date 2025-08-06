@@ -20,7 +20,7 @@ class ChatController extends Controller
     public function sendMessage(Request $request)
     {
         $request->validate([
-            'message' => 'required|string',
+            'message' => 'required|string|max:1000',
             'receiver_id' => 'required|integer|exists:users,user_id'
         ]);
 
