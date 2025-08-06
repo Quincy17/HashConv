@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import Echo from '../echo';
+import EmojiPicker from 'emoji-picker-react';
 
 export default function Dashboard({ messages: initialMessages = [] }) {
     const { auth } = usePage().props; // Ambil data user yang login
@@ -12,6 +13,7 @@ export default function Dashboard({ messages: initialMessages = [] }) {
     const [message, setMessage] = useState('');
     const [detailMessage, setDetailMessage] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const fetchSidebarMessage = async () => {
         try {
@@ -79,27 +81,54 @@ export default function Dashboard({ messages: initialMessages = [] }) {
         <AuthenticatedLayout
             sidebar={<Chat messages={messages} onSelectDetailMessage={fetchDetailMessage} />}
             chatHolder={
-                <div className="flex items-center gap-2">
-                    <input
-                        type="text"
-                        placeholder="Type message..."
-                        className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:text-gray-100"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                        disabled={!selectedUserId}
-                    />
-                    <button
-                        onClick={handleSend}
-                        className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
-                        disabled={!selectedUserId}
-                    >
-                        Send
-                    </button>
-                </div>
+                <div className="relative flex items-center gap-2">
+    {/* Tombol untuk toggle emoji picker */}
+    <button
+        type="button"
+        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        className="rounded-md px-2 text-xl"
+    >
+        <span className='text-gray-500 dark:text-gray-300'>
+            ☺
+        </span>
+    </button>
+
+    {/* Input chat */}
+    <input
+        type="text"
+        placeholder="Tulis pesan..."
+        className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm 
+                   focus:border-blue-500 focus:ring focus:ring-blue-200 
+                   dark:bg-gray-700 dark:text-gray-100"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+        disabled={!selectedUserId}
+    />
+
+{showEmojiPicker && (
+    <div className="absolute bottom-14 left-5 z-50">
+        <EmojiPicker
+            onEmojiClick={(emojiData) => {
+                setMessage((prev) => prev + emojiData.emoji);
+                setShowEmojiPicker(false);
+            }}
+        />
+    </div>
+)}
+
+    <button
+        onClick={handleSend}
+        className="rounded-md bg-blue-600 px-4 py-2 text-white 
+                   hover:bg-blue-700 focus:outline-none focus:ring-2 
+                   focus:ring-blue-400 disabled:opacity-50"
+        disabled={!selectedUserId}
+    >
+        Kirim
+    </button>
+</div>
             }
         >
-            <Head title="Dashboard" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

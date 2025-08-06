@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Dropdown from "@/Components/Dropdown"; // ✅ Gunakan komponen dropdown yang sudah ada
 
 export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState(null); // ✅ Tambah state
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
     const handleSearch = async (e) => {
         const value = e.target.value;
@@ -27,16 +28,49 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
 
     const handleSelectUser = (userId) => {
         onSelectDetailMessage(userId);
-        setSelectedUserId(userId); // ✅ Simpan user yang dipilih
+        setSelectedUserId(userId);
         setSearchQuery("");
         setIsSearching(false);
     };
 
     return (
-        <div className="h-full bg-gray-100 dark:bg-gray-800 overflow-y-auto scrollbar-hide">
-            <h2 className="px-4 py-3 text-lg font-bold text-gray-700 dark:text-gray-200">
-                Chats
-            </h2>
+        <div className="h-full bg-gray-100 dark:bg-gray-800 overflow-y-auto scrollbar-hide relative">
+            <div className="flex justify-between items-center px-4 py-3">
+                <h2 className="text-lg font-bold text-gray-700 dark:text-gray-200">
+                    Chats
+                </h2>
+
+                <div className="relative">
+                    <Dropdown>
+                        <Dropdown.Trigger>
+                            <button
+                                type="button"
+                                className="inline-flex items-center justify-center w-8 h-8 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+                            >
+                                <svg
+                                    className="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                    />
+                                </svg>
+                            </button>
+                        </Dropdown.Trigger>
+
+                        <Dropdown.Content className="absolute ml-2 top-0 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50">
+                            <Dropdown.Link href="#">Private Message</Dropdown.Link>
+                            <Dropdown.Link href="#">Archived</Dropdown.Link>
+                        </Dropdown.Content>
+                    </Dropdown>
+                </div>
+            </div>
 
             {/* 🔍 Search Bar */}
             <div className="px-4 mb-2">
@@ -49,8 +83,8 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                 />
             </div>
 
+            {/* 🔹 List Chat */}
             <div>
-                {/* Jika sedang searching, tampilkan hasil pencarian */}
                 {isSearching && searchResults.length > 0 ? (
                     searchResults.map((user) => (
                         <div
@@ -76,8 +110,8 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                             key={chat.id}
                             onClick={() => handleSelectUser(chat.id)}
                             className={`flex justify-between items-center px-4 py-3 cursor-pointer mt-1
-                                hover:bg-gray-200 dark:hover:bg-gray-700 hover: rounded
-                                ${selectedUserId === chat.id ? "bg-blue-200 dark:bg-gray-700  dark:border-gray-300 rounded border-b" : ""}`}
+                                hover:bg-gray-200 dark:hover:bg-gray-700 rounded
+                                ${selectedUserId === chat.id ? "bg-blue-200 dark:bg-gray-700 dark:border-gray-300 rounded border-b" : ""}`}
                         >
                             <div className="flex items-center gap-3">
                                 <img
@@ -106,7 +140,7 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                         </div>
                     ))
                 ) : (
-                    <p className="text-center text-gray-500 py-4">No messages found</p>
+                    <p className="text-center text-gray-500 py-4">No user found</p>
                 )}
             </div>
         </div>
