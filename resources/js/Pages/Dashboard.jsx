@@ -82,53 +82,53 @@ export default function Dashboard({ messages: initialMessages = [] }) {
             sidebar={<Chat messages={messages} onSelectDetailMessage={fetchDetailMessage} />}
             chatHolder={
                 <div className="relative flex items-center gap-2">
-    {/* Tombol untuk toggle emoji picker */}
-    <button
-        type="button"
-        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-        className="rounded-md px-2 text-xl"
-    >
-        <span className='text-gray-500 dark:text-gray-300'>
-            ☺
-        </span>
-    </button>
+                    {/* Tombol untuk toggle emoji picker */}
+                    <button
+                        type="button"
+                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                        className="rounded-md px-2 text-xl"
+                    >
+                        <span className='text-gray-500 dark:text-gray-300'>
+                            ☺
+                        </span>
+                    </button>
 
-    {/* Input chat */}
-    <input
-        type="text"
-        placeholder="Tulis pesan..."
-        className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm 
-                   focus:border-blue-500 focus:ring focus:ring-blue-200 
-                   dark:bg-gray-700 dark:text-gray-100"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-        disabled={!selectedUserId}
-    />
+                    {/* Input chat */}
+                    <input
+                        type="text"
+                        placeholder="Tulis pesan..."
+                        className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm 
+                                focus:border-blue-500 focus:ring focus:ring-blue-200 
+                                dark:bg-gray-700 dark:text-gray-100"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                        disabled={!selectedUserId}
+                    />
 
-{showEmojiPicker && (
-    <div className="absolute bottom-14 left-5 z-50">
-        <EmojiPicker
-            onEmojiClick={(emojiData) => {
-                setMessage((prev) => prev + emojiData.emoji);
-                setShowEmojiPicker(false);
-            }}
-        />
-    </div>
-)}
+                    {showEmojiPicker && (
+                        <div className="absolute bottom-14 left-5 z-50">
+                            <EmojiPicker
+                                onEmojiClick={(emojiData) => {
+                                    setMessage((prev) => prev + emojiData.emoji);
+                                    setShowEmojiPicker(false);
+                                }}
+                            />
+                        </div>
+                    )}
 
-    <button
-        onClick={handleSend}
-        className="rounded-md bg-blue-600 px-4 py-2 text-white 
-                   hover:bg-blue-700 focus:outline-none focus:ring-2 
-                   focus:ring-blue-400 disabled:opacity-50"
-        disabled={!selectedUserId}
-    >
-        Kirim
-    </button>
-</div>
-            }
-        >
+                    <button
+                        onClick={handleSend}
+                        className="rounded-md bg-blue-600 px-4 py-2 text-white 
+                                hover:bg-blue-700 focus:outline-none focus:ring-2 
+                                focus:ring-blue-400 disabled:opacity-50"
+                        disabled={!selectedUserId}
+                    >
+                        Kirim
+                    </button>
+                </div>
+                }
+            >
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
