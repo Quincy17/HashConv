@@ -34,7 +34,7 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
     };
 
     return (
-        <div className="h-full bg-gray-100 dark:bg-gray-800 overflow-y-auto scrollbar-hide relative">
+        <div className="h-full bg-gray-100 dark:bg-gray-800 overflow-y-auto scrollbar-hide relative pt-16">
             <div className="flex justify-between items-center px-4 py-3">
                 <h2 className="text-lg font-bold text-gray-700 dark:text-gray-200">
                     Chats
@@ -65,8 +65,8 @@ export default function ChatSidebar({ messages = [], onSelectDetailMessage }) {
                         </Dropdown.Trigger>
 
                         <Dropdown.Content className="absolute ml-2 top-0 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50">
-                            <Dropdown.Link href="#">Private Message</Dropdown.Link>
-                            <Dropdown.Link href="#">Archived</Dropdown.Link>
+                            {/* <Dropdown.Link href={route(chat.privateChat)}>Private Message</Dropdown.Link>
+                            <Dropdown.Link href={route(chat.archiveChat)}>Archived</Dropdown.Link> */}
                         </Dropdown.Content>
                     </Dropdown>
                 </div>

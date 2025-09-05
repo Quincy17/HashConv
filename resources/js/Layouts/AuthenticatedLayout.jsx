@@ -185,7 +185,7 @@ export default function AuthenticatedLayout({ header, sidebar, children, chatHol
                         </aside>
                     )}
 
-                    <main className="flex-1 p-6 pt-16">
+                    <main className="flex-1">
                         {children}
                     </main>
                 </div>
