@@ -122,4 +122,20 @@ class ChatController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+    public function privateChat($user_id)
+    {
+        // Logic for private chat
+        return inertia('PrivateChat', [
+
+        ]);
+    }
+
+    public function archiveChat($chat_id)
+    {
+        // Logic for archiving chat
+        return inertia('ArchiveChat', [
+
+        ]);
+    }
 }

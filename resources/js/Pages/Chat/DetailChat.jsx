@@ -35,6 +35,12 @@ export default function DetailChat({ detailMessage = [], selectedUserId, userId 
     }, [userId, selectedUserId]);
 
     // Auto-scroll ke bawah pas buka detail chat
+    // const bottomRef = useRef(null);
+    // useEffect(() => {
+    //     if (bottomRef.current) {
+    //         bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    //     }
+    // }, [messages]);
     useEffect(() => {
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;

@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/mark-as-read', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
 
     Route::get('/search-user', [UserController::class, 'searchUser'])->name('user.search');
+    Route::get('/private-chat/{user_id}', [ChatController::class, 'privateChat'])->name('chat.privateChat');
+    Route::get('/archive-chat/{chat_id}', [ChatController::class, 'archiveChat'])->name('chat.archiveChat');
 });
 
 require __DIR__ . '/auth.php';
